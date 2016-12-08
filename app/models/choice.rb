@@ -5,6 +5,8 @@ class Choice < ApplicationRecord
 
   # Validations
 
+  validates :address, :uniqueness => { :scope => [:event_id] }
+
   validates :address, :presence => true
 
   validates :city, :presence => true
