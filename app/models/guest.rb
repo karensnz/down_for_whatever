@@ -5,4 +5,6 @@ class Guest < ApplicationRecord
 
   # Validations
 
+  validates :guest_id, :presence => true
+
 end
