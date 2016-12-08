@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  root :to => "events#index"
+  root :to => "events#new"
   # Routes for the Vote resource:
   # CREATE
   get "/votes/new", :controller => "votes", :action => "new"
@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   # READ
   get "/users", :controller => "users", :action => "index"
   get "/users/:id", :controller => "users", :action => "show"
+  get "/my_invites", :controller => "users", action: "my_invites"
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

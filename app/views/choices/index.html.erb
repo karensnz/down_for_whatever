@@ -69,13 +69,7 @@
 </div>
 
 
-<div class="row m-b-2">
-  <div class="col-md-12">
-    <div>
-      <div id="location_map" style="height: 480px;"></div>
-    </div>
-  </div>
-</div>
+
 
 <div class="row">
   <div class="col-md-12">
@@ -90,14 +84,8 @@
       </tr>
 
       <% @choices.each do |choice| %>
-      <tr>
-        <td>
-          <% if choice.event.present? %>
-            <a href="/events/<%= choice.event.id %>">
-              <%= choice.event.title %>
-            </a>
-          <% end %>
-        </td>
+      
+        <td><%= choice.event.title %></td>
         <td><%= choice.location %></td>
         <td><%= choice.address %></td>
         <td><%= choice.city %></td>

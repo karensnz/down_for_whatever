@@ -13,6 +13,8 @@ class User < ApplicationRecord
              :foreign_key => "host_id",
              :dependent => :destroy
 
+  has_many   :invites, :through => :guests, :source => :event
+
   # Indirect associations
 
   # Validations

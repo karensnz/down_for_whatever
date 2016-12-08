@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>DownForWhatever</title>
+  <title>Down For Whatever</title>
 
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -41,19 +41,16 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/votes">Votes</a></li>
-          <li><a href="/choices">Choices</a></li>
-          <li><a href="/guests">Guests</a></li>
-          <li><a href="/events">Events</a></li>
-          <li><a href="/users">Users</a></li>
-          <li><a href="/rails/info">Sitemap</a></li>
+          <li><a href="/events/new"> Create Event </a></li>
+          <li><a href="/events">My Events</a></li>
+          <li><a href="/my_invites">My Invites</a></li>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
           <% if current_user.present? %>
             <li>
               <a href="/users/edit">
-                <%= current_user.email %>
+                <%= current_user.name %>
               </a>
             </li>
 

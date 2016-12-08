@@ -160,8 +160,7 @@
         <td><%= event.title %></td>
         <td>
           <% if event.host.present? %>
-            <a href="/users/<%= event.host.id %>">
-              <%= event.host.email %>
+            <%= event.host.name %>
             </a>
           <% end %>
         </td>
@@ -169,7 +168,7 @@
         <td><%= event.time %></td>
         <td>
           <a href="/events/<%= event.id %>" class="btn btn-primary">Show</a>
-          
+
           <% if current_user == event.host %>
             <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
             <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Delete</a>

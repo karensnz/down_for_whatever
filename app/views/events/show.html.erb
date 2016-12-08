@@ -1,18 +1,15 @@
 <div class="page-header">
-  <h3>Event #<%= @event.id %></h3>
+  <h3><%= @event.title %></h3>
 </div>
 
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>Title</dt>
-      <dd><%= @event.title %></dd>
 
       <dt>Host</dt>
       <dd>
         <% if @event.host.present? %>
-          <a href="/users/<%= @event.host_id %>">
-            <%= @event.host.email %>
+            <%= @event.host.name %>
           </a>
         <% end %>
       </dd>
@@ -31,10 +28,10 @@
       </a>
       <% if current_user == @event.host %>
         <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
-          Edit
+          Edit Time
         </a>
         <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
-          Delete
+          Cancel Event
         </a>
       <% end %>
     </div>
@@ -52,8 +49,7 @@
 
       <% @event.guests.each do |guest| %>
         <li class="list-group-item">
-          <a href="/guests/<%= guest.id %>">
-            <%= guest.event_id %>
+            <%= guest.guest.name %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
             <a href="/guests/<%= guest.id %>" class="btn btn-primary">
@@ -77,17 +73,18 @@
       <!-- Label and input for event_id -->
       <input type="hidden" name="event_id" value="<%= @event.id %>">
 
-      <!-- Label and input for guest_id -->
+      <!-- Label and input for guest name -->
       <div class="form-group">
-        <label for="guest_id" class="control-label">
-          Guest
+        <label for="name" class="control-label">
+          Guests
         </label>
 
-        <%= select_tag(:guest_id, options_from_collection_for_select(User.all, :id, :email), :class => "form-control") %>
-      </div>
+      <div class="form-group">
 
+        <%= select_tag(:guest_id, options_from_collection_for_select(User.all, :id, :name, @guest.guest_id), :class => "form-control") %>
+      </div>
       <button class="btn btn-block btn-success">
-        Create Guest
+        Invite Guest
       </button>
     </form>
       </li>
@@ -101,13 +98,13 @@
   <div class="col-md-12">
     <ul class="list-group">
       <li class="list-group-item list-group-item-info">
-        Choices
+        Location Options
       </li>
 
       <% @event.choices.each do |choice| %>
         <li class="list-group-item">
           <a href="/choices/<%= choice.id %>">
-            <%= choice.event_id %>
+            <%= choice.location %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
             <a href="/choices/<%= choice.id %>" class="btn btn-primary">
@@ -168,7 +165,7 @@
       </div>
 
       <button class="btn btn-block btn-success">
-        Create Choice
+        Create Option
       </button>
     </form>
       </li>
