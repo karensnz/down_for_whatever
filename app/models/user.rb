@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   # Direct associations
 
+  has_many   :votes,
+             :foreign_key => "guest_id",
+             :dependent => :destroy
+
   has_many   :guests,
              :foreign_key => "guest_id",
              :dependent => :destroy
