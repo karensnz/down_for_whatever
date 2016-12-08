@@ -1,6 +1,6 @@
 class ChoicesController < ApplicationController
   def index
-    @choices = Choice.all
+    @choices = Choice.page(params[:page]).per(10)
     @location_hash = Gmaps4rails.build_markers(@choices.where.not(:state_latitude => nil)) do |choice, marker|
       marker.lat choice.state_latitude
       marker.lng choice.state_longitude
