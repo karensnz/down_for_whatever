@@ -16,8 +16,20 @@
 
       <% @guests.each do |guest| %>
       <tr>
-        <td><%= guest.event.title %></td>
-        <td><%= guest.guest.email %></td>
+        <td>
+          <% if guest.event.present? %>
+            <a href="/events/<%= guest.event.id %>">
+              <%= guest.event.title %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if guest.guest.present? %>
+            <a href="/users/<%= guest.guest.id %>">
+              <%= guest.guest.email %>
+            </a>
+          <% end %>
+        </td>
         <td>
           <a href="/guests/<%= guest.id %>" class="btn btn-primary">Show</a>
           <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning">Edit</a>

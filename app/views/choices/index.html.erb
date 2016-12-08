@@ -28,7 +28,13 @@
 
       <% @choices.each do |choice| %>
       <tr>
-        <td><%= choice.event.title %></td>
+        <td>
+          <% if choice.event.present? %>
+            <a href="/events/<%= choice.event.id %>">
+              <%= choice.event.title %>
+            </a>
+          <% end %>
+        </td>
         <td><%= choice.location %></td>
         <td><%= choice.address %></td>
         <td><%= choice.city %></td>
