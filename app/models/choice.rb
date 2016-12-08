@@ -5,6 +5,8 @@ class Choice < ApplicationRecord
 
   # Validations
 
+  validates :city, :presence => true
+
   validates :location, :presence => true
 
   validates :state, :presence => true
