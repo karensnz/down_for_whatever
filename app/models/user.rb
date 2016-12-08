@@ -5,6 +5,8 @@ class User < ApplicationRecord
 
   # Validations
 
+  validates :phone, :presence => true
+
   validates :phone, :length => { :minimum => 10, :maximum => 10 }
 
   # Include default devise modules. Others available are:
