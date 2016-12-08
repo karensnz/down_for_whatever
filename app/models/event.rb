@@ -5,4 +5,6 @@ class Event < ApplicationRecord
 
   # Validations
 
+  validates :time, :presence => true
+
 end
