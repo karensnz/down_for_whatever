@@ -1,6 +1,21 @@
 class ChoicesController < ApplicationController
   def index
     @choices = Choice.all
+    @location_hash = Gmaps4rails.build_markers(@choices.where.not(:state_latitude => nil)) do |choice, marker|
+      marker.lat choice.state_latitude
+      marker.lng choice.state_longitude
+      marker.infowindow "<h5><a href='/choices/#{choice.id}'>#{choice.created_at}</a></h5><small>#{choice.state_formatted_address}</small>"
+    end
+    @location_hash = Gmaps4rails.build_markers(@choices.where.not(:city_latitude => nil)) do |choice, marker|
+      marker.lat choice.city_latitude
+      marker.lng choice.city_longitude
+      marker.infowindow "<h5><a href='/choices/#{choice.id}'>#{choice.created_at}</a></h5><small>#{choice.city_formatted_address}</small>"
+    end
+    @location_hash = Gmaps4rails.build_markers(@choices.where.not(:address_latitude => nil)) do |choice, marker|
+      marker.lat choice.address_latitude
+      marker.lng choice.address_longitude
+      marker.infowindow "<h5><a href='/choices/#{choice.id}'>#{choice.created_at}</a></h5><small>#{choice.address_formatted_address}</small>"
+    end
 
     render("choices/index.html.erb")
   end
