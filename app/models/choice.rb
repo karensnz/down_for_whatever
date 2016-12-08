@@ -5,4 +5,6 @@ class Choice < ApplicationRecord
 
   # Validations
 
+  validates :state, :presence => true
+
 end
