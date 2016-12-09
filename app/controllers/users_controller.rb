@@ -9,6 +9,9 @@ class UsersController < ApplicationController
 
   def my_invites
   @users = current_user
+  @choice = Choice.new
+  @guest = Guest.new
+
 
   render("users/my_invites.html.erb")
 end

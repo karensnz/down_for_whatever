@@ -42,7 +42,7 @@ class ChoicesController < ApplicationController
     @choice.address = params[:address]
     @choice.city = params[:city]
     @choice.state = params[:state]
-
+    @event = Event.find(params[:event_id])
     save_status = @choice.save
 
     if save_status == true
@@ -50,7 +50,7 @@ class ChoicesController < ApplicationController
 
       case referer
       when "/choices/new", "/create_choice"
-        redirect_to("/choices")
+        redirect_to("/events/#{@event.id}")
       else
         redirect_back(:fallback_location => "/", :notice => "Choice created successfully.")
       end

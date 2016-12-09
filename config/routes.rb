@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   # DELETE
   get "/delete_vote/:id", :controller => "votes", :action => "destroy"
+  post "/delete_vote/:id", :controller => "votes", :action => "destroy"
   #------------------------------
 
   # Routes for the Choice resource:

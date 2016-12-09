@@ -149,7 +149,6 @@
     <table class="table table-striped table-hover">
       <tr>
         <th>Title</th>
-        <th>Host</th>
         <th>Date</th>
         <th>Time</th>
         <th>Actions</th>
@@ -158,20 +157,13 @@
       <% @events.each do |event| %>
       <tr>
         <td><%= event.title %></td>
+        <td><%= event.date.to_time.strftime('%B %e, %Y') %></td>
+        <td><%= event.time.to_time.strftime('%l:%M %p') %></td>
         <td>
-          <% if event.host.present? %>
-            <%= event.host.name %>
-            </a>
-          <% end %>
-        </td>
-        <td><%= event.date %></td>
-        <td><%= event.time %></td>
-        <td>
-          <a href="/events/<%= event.id %>" class="btn btn-primary">Show</a>
+          <a href="/events/<%= event.id %>" class="btn btn-primary">Add/Edit Details</a>
 
           <% if current_user == event.host %>
-            <a href="/events/<%= event.id %>/edit" class="btn btn-warning">Edit</a>
-            <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+            <a href="/delete_event/<%= event.id %>" class="btn btn-danger" rel="nofollow">Cancel</a>
           <% end %>
         </td>
       </tr>

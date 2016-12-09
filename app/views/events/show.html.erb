@@ -15,10 +15,10 @@
       </dd>
 
       <dt>Date</dt>
-      <dd><%= @event.date %></dd>
+      <dd><%= @event.date.to_time.strftime('%B %e, %Y') %></dd>
 
       <dt>Time</dt>
-      <dd><%= @event.time %></dd>
+      <dd><%= @event.time.to_time.strftime('%l:%M %p') %></dd>
 
     </dl>
 
@@ -52,12 +52,7 @@
             <%= guest.guest.name %>
           </a>
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/guests/<%= guest.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/guests/<%= guest.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
+
             <a href="/delete_guest/<%= guest.id %>" class="btn btn-danger" rel="nofollow">
               <i class="fa fa-trash-o"></i>
             </a>
@@ -81,7 +76,7 @@
 
       <div class="form-group">
 
-        <%= select_tag(:guest_id, options_from_collection_for_select(User.all, :id, :name, @guest.guest_id), :class => "form-control") %>
+        <%= select_tag(:guest_id, options_from_collection_for_select(User.where.not(id: current_user.id), :id, :name, @guest.guest_id), :class => "form-control") %>
       </div>
       <button class="btn btn-block btn-success">
         Invite Guest
@@ -103,16 +98,40 @@
 
       <% @event.choices.each do |choice| %>
         <li class="list-group-item">
-          <a href="/choices/<%= choice.id %>">
-            <%= choice.location %>
+            <%= choice.location %> (<%= choice.address %>, <%= choice.city %>, <%= choice.state %>)
           </a>
+
+
+            <% vote = choice.votes.find_by(:guest_id => current_user.id, :choice_id => choice.id) %>
+            <% if choice.voters.exists?(current_user.id) %>
+                <!-- Hidden input for authenticity token to protect from forgery -->
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                <% if choice.voters.count > 1 %>
+                  <%= choice.voters.count %> people voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                <% else %>
+                  <%= choice.voters.count %> person voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                <% end %>
+
+            <% else %>
+
+                <!-- Hidden input for authenticity token to protect from forgery -->
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                <input type="hidden" name="choice_id" value="<%= choice.id %>">
+                <input type="hidden" name="guest_id" value="<%= current_user.id %>">
+                <% if choice.voters.exists? %>
+                  <% if choice.voters.count > 1 %>
+                    <small class="text-muted"><%= choice.voters.count %> people voted for this (<%= choice.voters.pluck(:name).to_sentence %>)</small>
+                  <% else %>
+                    <small class="text-muted"><%= choice.voters.count %> person voted for this (<%= choice.voters.pluck(:name).to_sentence %>)</small>
+                  <% end %>
+                <% else %>
+                  <small class="text-muted">No votes</small>
+                <% end %>
+
+            <% end %>
+
+
           <div class="btn-group btn-group-xs pull-right">
-            <a href="/choices/<%= choice.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/choices/<%= choice.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
             <a href="/delete_choice/<%= choice.id %>" class="btn btn-danger" rel="nofollow">
               <i class="fa fa-trash-o"></i>
             </a>

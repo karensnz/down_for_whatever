@@ -86,7 +86,7 @@ class VotesController < ApplicationController
     if URI(request.referer).path == "/votes/#{@vote.id}"
       redirect_to("/", :notice => "Vote deleted.")
     else
-      redirect_back(:fallback_location => "/", :notice => "Vote deleted.")
+      redirect_to(:back, :notice => "Vote deleted.")
     end
   end
 end

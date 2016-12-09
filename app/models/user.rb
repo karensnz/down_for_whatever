@@ -15,6 +15,8 @@ class User < ApplicationRecord
 
   has_many   :invites, :through => :guests, :source => :event
 
+  has_many   :voted_choices, :through => :votes, :source => :choice
+
   # Indirect associations
 
   # Validations

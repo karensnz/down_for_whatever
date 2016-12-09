@@ -63,6 +63,8 @@ class Choice < ApplicationRecord
 
   belongs_to :event
 
+  has_many  :voters, :through => :votes, :source => :guest
+
   # Indirect associations
 
   # Validations

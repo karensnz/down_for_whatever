@@ -1,28 +1,125 @@
 <div class="page-header">
   <h3>Events I'm Invited To</h3>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <table class="table table-striped table-hover">
-      <tr>
-        <th>Title</th>
-        <th>Host</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Actions</th>
-      </tr>
 
       <% @users.invites.each do |event| %>
-      <tr>
-        <td><%= event.title %></td>
-        <td><%= event.host.name %></td>
-        <td><%= event.date %></td>
-        <td><%= event.time %></td>
-        <td>
-          <a href="/events/<%= event.id %>" class="btn btn-primary">Show</a>
-          <% end %>
-        </td>
-      </tr>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><%= event.title %></h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <dl class="dl-horizontal">
+
+                <dt>Host</dt>
+                <dd>
+                  <% if event.host.present? %>
+                      <%= event.host.name %>
+                    </a>
+                  <% end %>
+                </dd>
+
+                <dt>Date</dt>
+                <dd><%= event.date.to_time.strftime('%B %e, %Y') %></dd>
+
+                <dt>Time</dt>
+                <dd><%= event.time.to_time.strftime('%l:%M %p') %></dd>
+
+              </dl>
+
+
+            </div>
+          </div>
+
+          <!-- A Event has many guests -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                  Guests
+                </li>
+
+                <% event.guests.each do |guest| %>
+                  <li class="list-group-item">
+                      <%= guest.guest.name %>
+                    </a>
+
+                  </li>
+                <% end %>
+
+
+              </ul>
+            </div>
+          </div>
+
+          <!-- A Event has many choices -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                  Location Options
+                </li>
+
+                <% event.choices.each do |choice| %>
+                  <li class="list-group-item">
+                    <a href="/choices/<%= choice.id %>">
+                      <%= choice.location %>
+                    </a>
+
+
+                    <div class="btn-group btn-group-xs pull-right">
+                    <% vote = choice.votes.find_by(:guest_id => current_user.id, :choice_id => choice.id) %>
+                    <% if choice.voters.exists?(current_user.id) %>
+                      <form action="/delete_vote/<%= vote.id %>" method="post" rel="nofollow">
+                        <!-- Hidden input for authenticity token to protect from forgery -->
+                        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                        <% if choice.voters.count > 1 %>
+                          <%= choice.voters.count %> people voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                        <% else %>
+                          <%= choice.voters.count %> person voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                        <% end %>
+                        <button class="btn btn-link">
+                          <i class="fa fa-heart" aria-hidden="true"></i>
+                        </button>
+
+                      </form>
+                    <% else %>
+                      <form action="/create_vote" method="post">
+                        <!-- Hidden input for authenticity token to protect from forgery -->
+                        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+                        <input type="hidden" name="choice_id" value="<%= choice.id %>">
+                        <input type="hidden" name="guest_id" value="<%= current_user.id %>">
+                        <% if choice.voters.exists? %>
+                          <% if choice.voters.count > 1 %>
+                            <%= choice.voters.count %> people voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                          <% else %>
+                            <%= choice.voters.count %> person voted for this (<%= choice.voters.pluck(:name).to_sentence %>)
+                          <% end %>
+                        <% else %>
+                          <small class="text-muted">Be the first to vote on this!</small>
+                        <% end %>
+                        <button class="btn btn-link">
+                          <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        </button>
+
+                      </form>
+                    <% end %>
+                  </div>
+
+
+                  </li>
+                <% end %>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<% end %>
     </table>
   </div>
-</div>

@@ -14,8 +14,9 @@ class GuestsController < ApplicationController
 
   def new
     @guest = Guest.new
-
     render("guests/new.html.erb")
+    @event = Event.find(params[:event_id])
+    
   end
 
   def create
@@ -23,7 +24,7 @@ class GuestsController < ApplicationController
 
     @guest.event_id = params[:event_id]
     @guest.guest_id = params[:guest_id]
-
+    @event = Event.find(params[:event_id])
     save_status = @guest.save
 
     if save_status == true
@@ -31,7 +32,7 @@ class GuestsController < ApplicationController
 
       case referer
       when "/guests/new", "/create_guest"
-        redirect_to("/guests")
+        redirect_to("/events/#{@event.id}")
       else
         redirect_back(:fallback_location => "/", :notice => "Guest created successfully.")
       end

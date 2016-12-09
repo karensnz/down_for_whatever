@@ -12,4 +12,5 @@ class Vote < ApplicationRecord
 
   validates :guest_id, :presence => true
 
+
 end

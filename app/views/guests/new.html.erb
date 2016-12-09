@@ -18,13 +18,9 @@
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for event_id -->
-      <div class="form-group">
-        <label for="event_id" class="control-label">
-          Event
-        </label>
-
-        <%= select_tag(:event_id, options_from_collection_for_select(Event.all, :id, :title, @guest.event_id), :class => "form-control") %>
+      <!-- Hidden input for event_id -->
+    
+        <input type="hidden" name="event_id" value="<%= @event.id %>">
       </div>
 
       <!-- Label and input for guest_id -->
@@ -40,7 +36,7 @@
         Create Guest
       </button>
       or
-      <a href="/guests">Cancel</a>
+      <a href="/events/<%=@event.id%>">Cancel</a>
     </form>
   </div>
 </div>
