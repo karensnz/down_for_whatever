@@ -65,8 +65,7 @@
 
                 <% event.choices.each do |choice| %>
                   <li class="list-group-item">
-                    <a href="/choices/<%= choice.id %>">
-                      <%= choice.location %>
+                      <%= choice.location %> (<%= choice.address %>, <%= choice.city %>, <%= choice.state %>)
                     </a>
 
 
